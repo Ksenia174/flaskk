@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Регистрация
+{% endblock %}
+
+{% block body %}
+<div>
+    <form action="/insert" id="msform" method="POST">
+      <fieldset>
+        <h2 class="fs-title">Регистрация</h2>
+        <input type="text" name="login" placeholder="login" />
+        <input type="password" name="pass" placeholder="Password" />
+        <input type="password" name="cpass" placeholder="Confirm Password" />
+          <input   value="Создать" name="insert" type="submit" class="next action-button"/>
+      </fieldset>
+    </form>
+     <div class="register">
+          <a href="/auth">Уже зарегистрированы? Авторизуйтесь</a>
+     </div>
+</div>
+
+ {% for message in get_flashed_messages() %}
+<p>{{message}}</p>
+{% endfor %}
+
+{% endblock %}

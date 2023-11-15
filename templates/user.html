@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Профиль
+{% endblock %}
+
+{% block css %}
+href = "{{url_for('static', filename='css/user.css')}}"
+{% endblock %}
+
+
+{% block body %}
+
+
+<table class="table table-striped table-dark">
+	<caption>Ваши ссылки</caption>
+	<thead>
+		<tr>
+			<th>Исходная ссылка</th>
+			<th>Сокращенная ссылка</th>
+			<th>Количество переходов</th>
+			<th>Изменить тип</th>
+			<th>Изменить псевдоним</th>
+			<th>Удалить</th>
+		</tr>
+	</thead>
+	<tbody>
+	 {% for i in links %}
+	 	<tr>
+			<td class="max-200px">{{i[0]}}</td>
+			<td>{{i[3]}}</td>
+			<td>{{i[1]}}</td>
+			<td>
+			 	<form method="POST" action="editType">
+					 <select name="type">
+					 	{% for t in types %}
+							{% if(t['id_type'] == i[5])%}
+                				<option selected value="{{t['id_type']}}">{{t['type']}}</option>
+            				{% else %}
+					 			<option  value="{{t['id_type']}}">{{t['type']}}</option>
+						 	{% endif %}
+						 {% endfor %}
+				 	</select>
+					<button name="id" value={{i[4]}}>&#9998;</button>
+			 	</form>
+			 	{% for c, mes in get_flashed_messages(True) %}
+            	{% if(c == "errors")%}
+               	 	<p style="color:red">{{mes}}</p>
+            	{% endif %}
+            	{% endfor %}
+			</td>
+		 	<td>
+			 	<form method="POST" action="editPsev">
+					<input name="psev" value={{ i[3].replace(request.host_url + 'qwerty/', '') }} />
+					<button name="id" value={{i[4]}}>&#9998;</button>
+			 	</form>
+			 	{% for c, mes in get_flashed_messages(True) %}
+            	{% if(c == "errors")%}
+               	 	<p style="color:red">{{mes}}</p>
+            	{% endif %}
+            	{% endfor %}
+		 	</td>
+			<td>
+				<form method="POST" action="del">
+					<button name="id" value={{i[4]}}>&#10060;</button>
+				</form>
+			</td>
+		</tr>
+     {% endfor %}
+
+
+	</tbody>
+</table>
+
+{% endblock %}

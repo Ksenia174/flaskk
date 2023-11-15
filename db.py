@@ -106,7 +106,7 @@ def editTypeOfLink(type_id, link_id):
     connect.commit()
     connect.close()
 
-def editPsevOfLink(psev, link_id):
+def editPsevLink(psev, link_id):
     connect = sqlite3.connect("db.db")
     cursor = connect.cursor()
     cursor.execute("UPDATE links SET short_link = ? WHERE id = ?", (psev, link_id, ))

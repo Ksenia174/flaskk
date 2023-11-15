@@ -11,7 +11,7 @@
   <h1>Сокращатель</h1>
   <div class="underline">
   </div>
-  <form action="/create_link" method="post" id="form">
+  <form action="/createLink" method="post" id="form">
     <div class="d-link">
       <label for="link"></label>
       <input type="text" placeholder="Ссылка" name="link" id="link" required>
@@ -26,18 +26,18 @@
     </div>
     <div class="ISpsevdonim">
       <label for="ispsevd">Псевдоним нужен?</label>
-      <input type="checkbox"  name="ispsev" id="ispsev_input" >
+      <input type="checkbox"  name="ispsevd" id="ispsev_input" >
     </div>
     <div class="psevdonim">
       <label for="psevd"></label>
-      <input disabled  type="text" placeholder="псевдоним" name="psev" id="psev_input" required>
+      <input disabled  type="text" placeholder="Псевдоним" name="psevd" id="psev_input" required>
     </div>
     <div class="submit">
       <input type="submit" value="Сократить" id="form_button" />
     </div>
 
   </form>
-        <div class="ghost-div" style="">
+        <div class="ghost-div">
             {% for c, mes in get_flashed_messages(True) %}
             {% if(c == "errors")%}
                 <p style="color:red">{{mes}}</p>
@@ -47,11 +47,12 @@
         <div class="ghost-div" style="">
             {% for c, mes in get_flashed_messages(True) %}
             {% if(c == "url")%}
-                <a href={{mes}}>{{mes}}</a>
+                <a href={{mes}}>Перейти по ссылке: {{mes}}</a>
             {% endif %}
             {% endfor %}
 
         </div>
+
 </div>
     </div>
 <script>

@@ -54,6 +54,7 @@ def reg():
     return render_template('registr.html', nav = WhatNav())
 
 
+
 @app.route('/insert', methods=['POST'])
 def insert():
     if request.method == 'POST':
@@ -94,7 +95,6 @@ def home():
     if request.method == 'POST':
 
         login = request.form['login']
-        passw = request.form['pass']
         print(getLogin(login))
         if(getLogin(login) != None):
             hashas = hashlib.md5(request.form["pass"].encode())
@@ -119,7 +119,7 @@ def home():
 
 
 
-@app.route('/create_link', methods=['POST'])
+@app.route('/createLink', methods=['POST'])
 def createlink():
     if request.method == 'POST':
         host_url = request.host_url
@@ -143,7 +143,6 @@ def createlink():
                 short_link = host_url + "qwerty/" + ''.join(choice(string.ascii_letters+string.digits) for _ in range(randint(8, 12)))
                 if session.get("auth"):
                     insertLink(link, session.get("user_id"), type, short_link);
-
                 else:
                     insertLinkNotAuth(link, type, short_link)
                 flash(link, category="link")
@@ -151,6 +150,41 @@ def createlink():
         else:
             flash("Введите ссылку", category="errors")
     return redirect("/", code=302)
+
+@app.route('/editType', methods=['POST'])
+def edit_type():
+    if request.method == 'POST':
+        link_id = request.form['id']
+        type_id = request.form["type"]
+        editTypeOfLink(type_id,link_id)
+        return redirect('/user', code=302)
+
+@app.route('/del', methods=['POST'])
+def delete():
+    print("delete")
+    print(request.form['id'])
+    if request.method == 'POST':
+        link_id = request.form['id']
+        deleteLink(link_id)
+        return redirect('/user', code=302)
+
+@app.route('/editPsev', methods=['POST'])
+def edit_psev():
+    if request.method == 'POST':
+        link_id = request.form['id']
+        psev = request.form["psev"]
+        if psev == '':
+            host_url = request.host_url
+            short_link = host_url + "qwerty/" + ''.join(
+                choice(string.ascii_letters + string.digits) for _ in range(randint(8, 12)))
+            editPsevLink(short_link, link_id)
+        else:
+            new_link = request.host_url + "qwerty/" + psev
+            if getPsev(new_link) != None:
+                flash("Псевдоним занят", category="errors")
+            else:
+                editPsevLink(new_link, link_id)
+        return redirect('/user', code=302)
 
 
 if __name__ == '__main__':

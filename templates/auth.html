@@ -4,11 +4,15 @@
 Авторизация
 {% endblock %}
 
+{% block css %}
+href = "{{url_for('static', filename='css/auth.css')}}"
+{% endblock %}
+
 {% block body %}
 
 <div class="container-login100">
     <div class="wrap-login100">
-        <form action="/home" id="msform" method="POST" class="login100-form validate-form">
+        <form action="/home" id="msform" method="POST" class="login100-form validate-form form-auth">
                 {% for message in get_flashed_messages() %}
             <p>{{message}}</p>
             {% endfor %}
@@ -28,11 +32,11 @@
                 </span>
             </div>
             <div class="container-login100-form-btn">
-                <button class="login100-form-btn">Login</button>
+                <button class="login100-form-btn btn btn-dark">Войти</button>
             </div>
 
             <div class="p-t-136">
-                <a class="txt2" href="/registr">
+                <a class="txt2 link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/registr">
                     Создать аккаунт
                     <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                 </a>

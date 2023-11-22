@@ -4,20 +4,31 @@
 Регистрация
 {% endblock %}
 
+{% block css %}
+href = "{{url_for('static', filename='css/registr.css')}}"
+{% endblock %}
+
 {% block body %}
-<div>
-    <form action="/insert" id="msform" method="POST">
-      <fieldset>
+<div >
+    <form class="registr" action="/insert" id="msform" method="POST">
         <h2 class="fs-title">Регистрация</h2>
-        <input type="text" name="login" placeholder="login" />
-        <input type="password" name="pass" placeholder="Password" />
-        <input type="password" name="cpass" placeholder="Confirm Password" />
-          <input   value="Создать" name="insert" type="submit" class="next action-button"/>
-      </fieldset>
+        <div class="form-floating mb-1">
+            <input type="text" name="login" placeholder="login" class="form-control" id="floatingInput" />
+            <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" name="pass" placeholder="Password" class="form-control" id="floatingPassword" />
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating">
+             <input type="password" name="cpass" placeholder="Confirm Password" class="form-control" id="floatingPassword " />
+            <label for="floatingPassword">Confirm Password</label>
+        </div>
+        <input value="Создать" name="insert" type="submit" class="next action-button btn btn-dark"/>
+        <div class="register">
+          <a href="/auth" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Уже зарегистрированы? Авторизуйтесь</a>
+        </div>
     </form>
-     <div class="register">
-          <a href="/auth">Уже зарегистрированы? Авторизуйтесь</a>
-     </div>
 </div>
 
  {% for message in get_flashed_messages() %}

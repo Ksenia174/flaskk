@@ -145,6 +145,14 @@ def insertUser(login, password):
     connect.commit()
     connect.close()
 
-connect.commit()
-
-connect.close()
+def linksOnsecheck(userId, link):
+    connect = sqlite3.connect("db.db")
+    cursor = connect.cursor()
+    check = cursor.execute("SELECT * FROM links WHERE user_id =? and link =?", (userId, link)).fetchone()
+    print(check)
+    if check != None:
+        return False
+    else:
+        return True
+    connect.commit()
+    connect.close()

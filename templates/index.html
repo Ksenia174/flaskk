@@ -20,7 +20,7 @@ href = "{{url_for('static', filename='css/index.css')}}"
             </div>
             <div class="d-type">
                 <label for="type"></label>
-                <select name="type">
+                <select name="type" class="form-select" id="inputGroupSelect01">
                     {% for item in types %}
                     <option value="{{item['id_type']}}">{{item['type']}}</option>
                     {% endfor %}
@@ -28,14 +28,14 @@ href = "{{url_for('static', filename='css/index.css')}}"
             </div>
             <div class="ISpsevdonim">
                 <label for="ispsevd">Псевдоним нужен?</label>
-                <input type="checkbox"  name="ispsevd" id="ispsev_input" >
+                <input type="checkbox" name="ispsevd" id="ispsev_input">
             </div>
             <div class="psevdonim">
                 <label for="psevd"></label>
                 <input disabled  type="text" placeholder="Псевдоним" name="psevd" id="psev_input" required>
             </div>
             <div class="submit">
-                <input type="submit" value="Сократить" id="form_button" />
+                <input type="submit" value="Сократить" id="form_button" class="btn btn-dark" />
             </div>
         </form>
         <div class="ghost-div">

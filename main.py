@@ -122,30 +122,34 @@ def createlink():
         host_url = request.host_url
         link = request.form['link']
         type = request.form['type']
-        if link != "":
-            if request.form.getlist('ispsevd') :
-                psevd = request.form['psevd']
-                link_psevd = host_url + "qwerty/" + psevd
-                if getPsev(link_psevd) != None:
-                    flash("Псевдоним занят", category="errors")
+        print(linksOnsecheck(session.get("user_id"), link))
+        if linksOnsecheck(session.get("user_id"), link):
+            if link != "":
+                if request.form.getlist('ispsevd') :
+                    psevd = request.form['psevd']
+                    link_psevd = host_url + "qwerty/" + psevd
+                    if getPsev(link_psevd) != None:
+                        flash("Псевдоним занят", category="errors")
+                    else:
+                        short_link = host_url + "qwerty/" + psevd
+                        if session.get("auth"):
+                            insertLink(link, session.get("user_id"), type, short_link)
+                        else:
+                            insertLinkNotAuth(link, type, short_link)
+                        flash(link, category="link")
+                        flash(short_link, category="url")
                 else:
-                    short_link = host_url + "qwerty/" + psevd
+                    short_link = host_url + "qwerty/" + ''.join(choice(string.ascii_letters+string.digits) for _ in range(randint(8, 12)))
                     if session.get("auth"):
-                        insertLink(link, session.get("user_id"), type, short_link)
+                        insertLink(link, session.get("user_id"), type, short_link);
                     else:
                         insertLinkNotAuth(link, type, short_link)
                     flash(link, category="link")
                     flash(short_link, category="url")
             else:
-                short_link = host_url + "qwerty/" + ''.join(choice(string.ascii_letters+string.digits) for _ in range(randint(8, 12)))
-                if session.get("auth"):
-                    insertLink(link, session.get("user_id"), type, short_link);
-                else:
-                    insertLinkNotAuth(link, type, short_link)
-                flash(link, category="link")
-                flash(short_link, category="url")
+                flash("Введите ссылку", category="errors")
         else:
-            flash("Введите ссылку", category="errors")
+            flash("Данная ссылка уже сокращена на этом аккаунте", category="errors")
     return redirect("/", code=302)
 
 @app.route('/editType', methods=['POST'])

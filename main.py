@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session
+from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort
 from db import *
 import hashlib
 from random import choice, randint
@@ -65,8 +65,8 @@ def insert():
 
         if(getLogin(login) == None):
             if cpassw == passw:
-                hashas = hashlib.md5(request.form["pass"].encode())
-                password = hashas.hexdigest()
+                hash = hashlib.md5(request.form["pass"].encode())
+                password = hash.hexdigest()
                 insertUser(login,password)
                 id_user = getLogin(login)
                 session["user_id"] = id_user[0]
@@ -93,12 +93,11 @@ def logout():
 @app.route('/home', methods=['POST'])
 def home():
     if request.method == 'POST':
-
         login = request.form['login']
         print(getLogin(login))
         if(getLogin(login) != None):
-            hashas = hashlib.md5(request.form["pass"].encode())
-            password = hashas.hexdigest()
+            hash = hashlib.md5(request.form["pass"].encode())
+            password = hash.hexdigest()
             passwUser = getPass(login, password)
 
             if passwUser != None and passwUser[0] == password:
@@ -116,8 +115,6 @@ def home():
         else:
             flash("Логин не найден")
             return redirect('/auth', code = 302)
-
-
 
 @app.route('/createLink', methods=['POST'])
 def createlink():
@@ -158,11 +155,40 @@ def edit_type():
         type_id = request.form["type"]
         editTypeOfLink(type_id,link_id)
         return redirect('/user', code=302)
+@app.route('/qwerty/<short>', methods=['GET'])
+def shortLink(short):
+    user_link = request.host_url + "qwerty/" + short
+    link_us = getPsev(user_link)
+    if link_us != None:
+        link = link_us[0]
+        type = getTypebyLink(user_link)
+        type_link = type[0]
+        if type_link == 1:
+            updateCounOfLink(user_link)
+            return redirect(link)
+        else:
+            session["link"] = user_link
+            if session.get("auth"):
+                if type_link == 2:
+                    updateCounOfLink(user_link)
+                    session.pop('link', None)
+                    return redirect(link)
+                elif type_link == 3:
+                    if session.get("user_id") == getUserbyLink(user_link)[0]:
+                        updateCounOfLink(user_link)
+                        session.pop('link', None)
+                        return redirect(link)
+                    else:
+                        session.pop('link', None)
+                        return redirect("/noaccess")
+
+            else:
+                return redirect("/auth")
+    else:
+        abort(404)
 
 @app.route('/del', methods=['POST'])
 def delete():
-    print("delete")
-    print(request.form['id'])
     if request.method == 'POST':
         link_id = request.form['id']
         deleteLink(link_id)

@@ -1,0 +1,33 @@
+.container{
+    padding-top: 50px;
+}
+.cont{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
+    border-radius: 5px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form{
+    height: 180px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.submit{
+    display: flex;
+    justify-content: center;
+
+}
+
+#form_button{
+    width: 150px;
+}

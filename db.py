@@ -69,6 +69,12 @@ def getPsev(psev):
     cursor = connect.cursor()
     return cursor.execute('SELECT link FROM links WHERE short_link = ?',(psev,)).fetchone()
 
+def findLink(link_name, host):
+    connect = sqlite3.connect("db.db")
+    cursor = connect.cursor()
+    return cursor.execute('SELECT link, type_id FROM links WHERE short_link = ?',(host+link_name,)).fetchone()
+
+
 def getLinksByUser(us_id):
     connect = sqlite3.connect("db.db")
     cursor = connect.cursor()

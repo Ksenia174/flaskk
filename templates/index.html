@@ -4,39 +4,40 @@
 Сокращатель
 {% endblock %}
 
+{% block css %}
+href = "{{url_for('static', filename='css/index.css')}}"
+{% endblock %}
+
 {% block body %}
 
-    <div>
- <div id="container">
-  <h1>Сокращатель</h1>
-  <div class="underline">
-  </div>
-  <form action="/createLink" method="post" id="form">
-    <div class="d-link">
-      <label for="link"></label>
-      <input type="text" placeholder="Ссылка" name="link" id="link" required>
-    </div>
-    <div class="d-type">
-      <label for="type"></label>
-        <select name="type">
-          {% for item in types %}
-            <option value="{{item['id_type']}}">{{item['type']}}</option>
-          {% endfor %}
-        </select>
-    </div>
-    <div class="ISpsevdonim">
-      <label for="ispsevd">Псевдоним нужен?</label>
-      <input type="checkbox"  name="ispsevd" id="ispsev_input" >
-    </div>
-    <div class="psevdonim">
-      <label for="psevd"></label>
-      <input disabled  type="text" placeholder="Псевдоним" name="psevd" id="psev_input" required>
-    </div>
-    <div class="submit">
-      <input type="submit" value="Сократить" id="form_button" />
-    </div>
-
-  </form>
+<div class="container">
+    <div id="container" class="cont">
+        <h1>Сокращатель</h1>
+        <form action="/createLink" method="post" id="form" class="form">
+            <div class="d-link">
+                <label for="link"></label>
+                <input type="text" placeholder="Ссылка" name="link" id="link" required>
+            </div>
+            <div class="d-type">
+                <label for="type"></label>
+                <select name="type">
+                    {% for item in types %}
+                    <option value="{{item['id_type']}}">{{item['type']}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="ISpsevdonim">
+                <label for="ispsevd">Псевдоним нужен?</label>
+                <input type="checkbox"  name="ispsevd" id="ispsev_input" >
+            </div>
+            <div class="psevdonim">
+                <label for="psevd"></label>
+                <input disabled  type="text" placeholder="Псевдоним" name="psevd" id="psev_input" required>
+            </div>
+            <div class="submit">
+                <input type="submit" value="Сократить" id="form_button" />
+            </div>
+        </form>
         <div class="ghost-div">
             {% for c, mes in get_flashed_messages(True) %}
             {% if(c == "errors")%}
@@ -52,9 +53,9 @@
             {% endfor %}
 
         </div>
-
-</div>
     </div>
+</div>
+
 <script>
   document.querySelector("#ispsev_input").addEventListener("change", function(e){
     console.log(e.currentTarget.checked)
